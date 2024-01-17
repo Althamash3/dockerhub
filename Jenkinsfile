@@ -19,10 +19,10 @@ pipeline{
         bat 'docker push althamash/project:latest'
       }
     }
-    post{
+  }
+  post{
       always{
         bat 'docker logout'
       }
     }
-  }  
 }
