@@ -1,0 +1,21 @@
+pipeline {
+  environment{
+    DOCKERHUB_CREDENTIALS = credentials('althamashn-dockerhub')
+  }
+  stages {
+    stage('Build'){
+      bat 'docker build -t althamashn/project:latest'
+    }
+    stage('Login'){
+      bat 'echo $DOCKERHUB_CREDENTIALS | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+    }
+    stage('Push'){
+      bat 'docker push althamashn/project:latest'
+    }
+  }
+  post{
+    always{
+      bat 'docker logout'
+    }
+  }
+}
